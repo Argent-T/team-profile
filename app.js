@@ -5,7 +5,11 @@ const Manager = require("./lib/Manager");
 const inquirer = require("inquirer");
 
 //prompt
-const id = 0;
+var id = 0;
+
+const employeeList = [];
+
+
 function promptUser() {
     inquirer.prompt([
         {
@@ -30,34 +34,79 @@ function promptUser() {
             ]
         }
         // process results
-    ]).then(function ({ name, email, role }){
+    ]).then(function ({ name, email, role }) {
         // add one to ID
         id++;
         // depending on role, ask required extra information
-        if(role == "Manager"){
+        if (role == "Manager") {
             inquirer.prompt([
                 {
                     type: "input",
                     message: "Enter Manager Office Number",
-                    name:"officeNumber"
+                    name: "officeNumber"
                 }
-            ]).then(function({}))
+            ]).then(function ({ officeNumber }) {
+                const Emp = new Manager(name, id, email, officeNumber);
+                console.log(Emp);
+                employeeList.push(Emp);
+                addMore();
+            });
+        };
+        if (role == "Engineer") {
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "Enter Github Username",
+                    name: "github"
+                }
+            ]).then(function ({ github }) {
+                const Emp = new Engineer(name, id, email, github);
+                console.log(Emp);
+                employeeList.push(Emp);
+                addMore();
+            });
+        };
+        if (role == "Intern") {
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "Enter Intern's School",
+                    name: "school"
+                }
+            ]).then(function ({ school }) {
+                const Emp = new Intern(name, id, email, school);
+                console.log(Emp);
+                employeeList.push(Emp);
+                addMore();
+            });
+        };
 
-            const Emp = new role(name, id, email, )
-        }
-
-
-        
-
-
+        // ask if adding another employee
     })
 
-
-
-
+    function addMore() {
+        inquirer.prompt([
+            {
+                type: "list",
+                message: "Add another employee?",
+                name: "choice",
+                choices: [
+                    "Yes",
+                    "No"
+                ]
+            }
+        ]).then(function ({ choice }) {
+            if (choice == "No") {
+                endTest();
+            }
+            else (promptUser())
+        })
+    }
 
 }
+promptUser();
 
+function endTest() { console.log(employeeList); }
 
 //make ID count up with each employee. 
 //if or case based on role to determine what other items need be prompted.
