@@ -7,8 +7,9 @@ const inquirer = require("inquirer");
 //prompt
 var id = 0;
 
-const employeeList = [];
-
+const engineers = [];
+const interns = [];
+const managers = [];
 
 function promptUser() {
     inquirer.prompt([
@@ -48,7 +49,7 @@ function promptUser() {
             ]).then(function ({ officeNumber }) {
                 const Emp = new Manager(name, id, email, officeNumber);
                 console.log(Emp);
-                employeeList.push(Emp);
+                managers.push(Emp);
                 addMore();
             });
         };
@@ -62,7 +63,7 @@ function promptUser() {
             ]).then(function ({ github }) {
                 const Emp = new Engineer(name, id, email, github);
                 console.log(Emp);
-                employeeList.push(Emp);
+                engineers.push(Emp);
                 addMore();
             });
         };
@@ -76,7 +77,7 @@ function promptUser() {
             ]).then(function ({ school }) {
                 const Emp = new Intern(name, id, email, school);
                 console.log(Emp);
-                employeeList.push(Emp);
+                interns.push(Emp);
                 addMore();
             });
         };
@@ -106,7 +107,11 @@ function promptUser() {
 }
 promptUser();
 
-function endTest() { console.log(employeeList); }
+function endTest() { 
+    console.log(managers);
+    console.log(engineers);
+    console.log(interns);
+ }
 
-//make ID count up with each employee. 
-//if or case based on role to determine what other items need be prompted.
+ 
+//separate groups to separate arrays
